@@ -1,6 +1,6 @@
-import { libnut } from "../import_libnut";
-import { Key } from "@nut-tree/shared";
-import { KeyboardProviderInterface } from "@nut-tree/provider-interfaces";
+import {libnut} from "../import_libnut";
+import { Key } from "./shared-types";
+import { KeyboardProviderInterface } from "./provider-interfaces";
 
 export default class KeyboardAction implements KeyboardProviderInterface {
   public static KeyLookupMap = new Map<Key, string | null>([
@@ -229,6 +229,32 @@ export default class KeyboardAction implements KeyboardProviderInterface {
         keys.reverse();
         const [key, ...modifiers] = keys;
         await KeyboardAction.key(key, "up", ...modifiers);
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  public pressMultipleKeys(keys: Key[]): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        for (const key of keys) {
+          await this.pressKey(key);
+        }
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  public releaseMultipleKeys(keys: Key[]): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        for (const key of keys) {
+          await this.releaseKey(key);
+        }
         resolve();
       } catch (e) {
         reject(e);

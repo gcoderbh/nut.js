@@ -1,10 +1,8 @@
 import ln from "./libnut";
 
-const libnut: typeof ln = (process.platform === 'win32') ?
-    require("@nut-tree/libnut-win32") :
-    (process.platform === 'linux') ?
-        require("@nut-tree/libnut-linux") :
-        require("@nut-tree/libnut-darwin")
+// Import the local libnut-core using a declaration merge approach
+declare const require: any;
+const libnut: typeof ln = require("libnut");
 
 export {
     libnut,

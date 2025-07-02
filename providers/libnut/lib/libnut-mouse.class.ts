@@ -1,6 +1,6 @@
-import { libnut } from "../import_libnut";
-import { Button, Point } from "@nut-tree/shared";
-import { MouseProviderInterface } from "@nut-tree/provider-interfaces";
+import {libnut} from "../import_libnut";
+import { Button, Point } from "./shared-types";
+import { MouseProviderInterface } from "./provider-interfaces";
 
 export default class MouseAction implements MouseProviderInterface {
   public static buttonLookup(btn: Button): any {
@@ -137,6 +137,27 @@ export default class MouseAction implements MouseProviderInterface {
     return new Promise<void>((resolve, reject) => {
       try {
         libnut.scrollMouse(amount, 0);
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  public getMousePosition(): Promise<Point> {
+    return this.currentMousePosition();
+  }
+
+  public drag(start: Point, end: Point): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        // Move to start position and press button
+        await this.setMousePosition(start);
+        await this.pressButton(Button.LEFT);
+        // Drag to end position
+        libnut.dragMouse(end.x, end.y);
+        // Release button
+        await this.releaseButton(Button.LEFT);
         resolve();
       } catch (e) {
         reject(e);

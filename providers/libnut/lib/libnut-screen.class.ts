@@ -1,6 +1,6 @@
 import {libnut} from "../import_libnut";
-import {ColorMode, Image, Region} from "@nut-tree/shared";
-import {ScreenProviderInterface} from "@nut-tree/provider-interfaces";
+import {ColorMode, Image, Region} from "./shared-types";
+import {ScreenProviderInterface} from "./provider-interfaces";
 import {Bitmap} from "../libnut";
 
 export default class ScreenAction implements ScreenProviderInterface {
@@ -94,6 +94,25 @@ export default class ScreenAction implements ScreenProviderInterface {
             resolve();
         });
     }
+
+    public highlight(region: Region, duration?: number, opacity?: number): Promise<void> {
+        return new Promise<void>((resolve) => {
+          try {
+            libnut.screen.highlight(
+              region.left,
+              region.top,
+              region.width,
+              region.height,
+              duration || 2000,
+              opacity || 0.5
+            );
+            resolve();
+          } catch (e) {
+            // Ignore highlight errors as they're non-critical
+            resolve();
+          }
+        });
+      }
 
     public screenWidth(): Promise<number> {
         return new Promise<number>((resolve, reject) => {

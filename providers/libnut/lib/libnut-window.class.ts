@@ -1,6 +1,6 @@
-import { libnut } from "../import_libnut";
-import { Point, Region, Size } from "@nut-tree/shared";
-import { WindowProviderInterface } from "@nut-tree/provider-interfaces";
+import {libnut} from "../import_libnut";
+import { Point, Region, Size } from "./shared-types";
+import { WindowProviderInterface } from "./provider-interfaces";
 
 export default class WindowAction implements WindowProviderInterface {
   public getWindows(): Promise<number[]> {
@@ -74,7 +74,7 @@ export default class WindowAction implements WindowProviderInterface {
   resizeWindow(windowHandle: number, newSize: Size): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       try {
-        resolve(libnut.resizeWindow(windowHandle, newSize));
+        resolve(libnut.resizeWindow(windowHandle, { width: newSize.width, height: newSize.height }));
       } catch (e) {
         reject(e);
       }
