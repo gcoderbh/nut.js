@@ -17,10 +17,15 @@ cd providers/libnut
 npm run build
 # Should complete without errors
 
-# 4. Test basic functionality
-cd ../../examples/screen-test
-npm test
-# Should execute successfully
+# 4. Test basic functionality (NEW: comprehensive test)
+cd ../..
+node test-examples.js
+# Should show: "🎉 ALL TESTS PASSED! nut.js is working correctly."
+
+# 5. Test individual components
+cd examples/screen-test && node simple-test.js    # Screen functionality
+cd ../mouse-test && node simple-test.js           # Mouse functionality  
+cd ../keyboard-test && node simple-test.js        # Keyboard functionality
 ```
 
 ## ✅ Pre-Development Checklist

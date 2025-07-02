@@ -429,3 +429,87 @@ You now have everything you need to use nut.js in your own projects. Start with 
 Remember to always test your automation scripts thoroughly and consider the user experience when deploying automated solutions.
 
 Happy automating! 🤖
+
+## 🤖 AutoIt-Style Functions
+
+For users familiar with AutoIt, nut.js provides AutoIt-style wrapper functions that offer familiar syntax and behavior.
+
+### Installation and Usage
+
+```javascript
+// Import AutoIt-style functions
+const { MouseClick, MouseMove, Send, Sleep } = require('./autoit-style');
+
+// Use just like AutoIt (but with await)
+await MouseClick("left", 100, 200);
+await Send("Hello World{ENTER}");
+await Sleep(1000);
+```
+
+### Key AutoIt-Style Functions
+
+#### Mouse Control
+```javascript
+// Click at coordinates
+await MouseClick("left", 100, 200);     // Left click
+await MouseClick("right", 100, 200);    // Right click
+await MouseClick("left", 100, 200, 2);  // Double click
+
+// Convenience functions
+await LeftClick(100, 200);
+await RightClick(100, 200);
+await DoubleClick(100, 200);
+
+// Mouse movement
+await MouseMove(300, 400, 5);  // Move with speed 5
+
+// Get mouse position
+const pos = await MouseGetPos();
+console.log(`Mouse at: (${pos.x}, ${pos.y})`);
+```
+
+#### Keyboard Control
+```javascript
+// Send text with special keys
+await Send("Username{TAB}Password{ENTER}");
+
+// Send raw text
+await Send("Special {characters}", true);
+```
+
+#### Screen Info
+```javascript
+// Get screen dimensions (like @DesktopWidth, @DesktopHeight)
+const width = await GetDesktopWidth();
+const height = await GetDesktopHeight();
+```
+
+#### Timing
+```javascript
+// Sleep/wait (like AutoIt Sleep)
+await Sleep(1000);  // Wait 1 second
+```
+
+### AutoIt Migration Example
+
+**AutoIt script:**
+```autoit
+MouseClick("left", 100, 200)
+Send("Hello World")
+Sleep(1000)
+MouseMove(300, 400)
+```
+
+**nut.js equivalent:**
+```javascript
+const { MouseClick, Send, Sleep, MouseMove } = require('./autoit-style');
+
+async function automation() {
+    await MouseClick("left", 100, 200);
+    await Send("Hello World");
+    await Sleep(1000);
+    await MouseMove(300, 400);
+}
+```
+
+For complete AutoIt-style documentation, see [AUTOIT_STYLE_GUIDE.md](AUTOIT_STYLE_GUIDE.md).
